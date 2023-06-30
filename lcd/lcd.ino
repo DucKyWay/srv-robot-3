@@ -1,18 +1,19 @@
 #include <Adafruit_LiquidCrystal.h>
 
-Adafruit_LiquidCrystal lcd(0x20, 16, 2);
+Adafruit_LiquidCrystal lcd(0);
 
 int led_1 = 5;
 int led_2 = 4;
 int led_3 = 3;
 
 char wtfSerial = '0';
+int state = 0;
 
 void setup() {
   
-    pinMode(led_1, INPUT);
-    pinMode(led_2, INPUT);
-    pinMode(led_3, INPUT);
+    pinMode(led_1, OUTPUT);
+    pinMode(led_2, OUTPUT);
+    pinMode(led_3, OUTPUT);
 
     Serial.begin(9600);
     Serial.println("Program is Start.");
@@ -22,9 +23,7 @@ void setup() {
     digitalWrite(led_3, LOW);
   
     lcd.begin(16, 2);
-    lcd.setBacklight(LOW);
-    delay(1000); 
-    lcd.setBacklight(HIGH);
+    lcd.print("Hello World");
 }
 
 void loop() {
@@ -38,30 +37,32 @@ void loop() {
     	digitalWrite(led_1, LOW);
         digitalWrite(led_2, LOW);
         digitalWrite(led_3, LOW);
-        Serial.println("All LED is off");
+        lcd.setCursor(0, 1);
+        lcd.print("All LED is off");
+        delay(1000);
     }
     if(wtfSerial == '1') {
+        state = wtfSerial;
     	digitalWrite(led_1, HIGH);
-        Serial.println("LED 1 is on");
+        lcd_print();
     }
-      if(wtfSerial == '2') {
+    if(wtfSerial == '2') {
+        state = wtfSerial;
     	digitalWrite(led_2, HIGH);
-        Serial.println("LED 2 is on");
+        lcd_print();
     }
-      if(wtfSerial == '3') {
+    if(wtfSerial == '3') {
+        state = wtfSerial;
     	digitalWrite(led_3, HIGH);
-        Serial.println("LED 3 is on");
+        lcd_print();
     }
-
-    lcd.setBacklight(LOW);
-    delay(1000);
-    lcd.setBacklight(HIGH);
-    lcd.setCursor(0,0);
-    lcd.print("Hello, world!");
-    delay(2000);
-    lcd.clear();
-    lcd.setCursor(0,1);
-    lcd.print("I am an LCD");
-    delay(2000);
-    lcd.clear();
 }   
+
+void lcd_print(){
+    lcd.clear();
+    lcd.setCursor(0, 1);
+    lcd.print("LED ");
+    lcd.print(state - '0');
+    lcd.print(" is on");
+    delay(1000);
+}
