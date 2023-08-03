@@ -49,8 +49,6 @@ void dpDigit(int dg) {
     }
 }
 
-
-
 void setup() {
 
     pinMode(a, OUTPUT);
@@ -73,16 +71,12 @@ void loop() {
 
     dpDigit(3);
     delay(1000);
-
     dpDigit(7);
     delay(1000);
-    
     dpDigit(2);
     delay(1000);
-    
     dpDigit(9);
     delay(1000);
-    
     dpDigit(9);
     delay(1000);
 }
